@@ -180,3 +180,7 @@ document.addEventListener('keydown', event => {
 });
 
 //win condition 
+
+Events.on(engine, 'collisionStart', event => {
+    console.log(event)
+});
