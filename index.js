@@ -1,7 +1,7 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 
-const cellsHorizontal = 20;
-const cellsVertical = 15;
+const cellsHorizontal = 15;
+const cellsVertical = 10;
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -15,7 +15,7 @@ const render = Render.create({
     element: document.body,
     engine: engine,
     options: {
-        wireframes: true,
+        wireframes: false,
         width,
         height
     }
@@ -123,7 +123,10 @@ horizontals.forEach((row, rowIndex) => {
             5,
             {
                 label: 'wall',
-                isStatic: true
+                isStatic: true,
+                render: {
+                    fillStyle: 'tomato'
+                }
             }
         );
         World.add(world, wall)
@@ -142,7 +145,10 @@ verticals.forEach((row, rowIndex) => {
             unitLengthY,
             {
                 label: 'wall',
-                isStatic: true
+                isStatic: true,
+                render: {
+                    fillStyle: 'tomato'
+                }
             }
         );
         World.add(world, wall);
@@ -156,7 +162,10 @@ const goal = Bodies.rectangle(
     unitLengthY * .7,
     {
         label: 'goal',
-        isStatic: true
+        isStatic: true,
+        render: {
+            fillStyle: 'green'
+        }
     }
 );
 World.add(world, goal);
@@ -169,7 +178,10 @@ const ball = Bodies.circle(
     unitLengthY / 2,
     ballRadius,
     {
-        label: 'ball'
+        label: 'ball',
+        render: {
+            fillStyle: 'blue'
+        }
     }
 );
 World.add(world, ball);
@@ -200,6 +212,7 @@ Events.on(engine, 'collisionStart', event => {
             labels.includes(collision.bodyA.label) && 
             labels.includes(collision.bodyB.label)
         ) {
+            document.querySelector('.winner').classList.remove('hidden')
             world.gravity.y = 1;
             world.bodies.forEach(body => {
                 if (body.label === 'wall') {
